@@ -191,6 +191,7 @@
     height: 90%;
     text-align: center;
     padding: 10px;
+
 }
 
 .wc_second i,
@@ -208,8 +209,9 @@
 }
 
 .wc_text {
-    margin-top: 40px;
+    margin-top: 20px;
     color: rgb(48, 48, 48);
+    padding-bottom: 10px;
 }
 
 @media screen and (max-width:1000px) {
@@ -235,7 +237,7 @@
 
     .why_choose_section {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: auto auto;
         padding-bottom: 10px;
     }
 
@@ -281,7 +283,7 @@
     }
     .why_choose_section {
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr;
+        grid-template-rows: auto auto auto auto;
     }
     .wc_first{
         padding: 50px;
@@ -334,4 +336,8 @@
     .wc_first{
         padding: 25px;
     }
+    .empower_left {
+        padding-right: 0px;
+    }
+    
 }

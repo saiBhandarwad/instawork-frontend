@@ -1,33 +1,21 @@
 .app_container {
     display: flex;
     justify-content: center;
+    margin-top: 20px;
 }
-
-.upper_container {
-    height: 200px;
-    position: relative;
+.main_heading_container{
+    background: linear-gradient(45deg,rgba(16, 104, 255, 0.651), rgba(255, 0, 200, 0.599)90%);
 }
-
-.intro {
-    height: 100px;
-    width: 100%;
-    background: linear-gradient(to left, #b22fdc, #762ac5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 60px;
-    margin-top: 5px;
-}
-
-.intro_heading {
-    font-size: 25px;
-    color: white;
-    font-weight: 700;
-}
-
-.intro_text {
-    font-size: 25px;
-    color: white;
+.main_heading{
+    padding: 20px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 900;
+    /* background: linear-gradient(45deg, red,blue); */
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3eaNIWevHUGkUjoW8h5ELKyTiBGzR7N2EDA&usqp=CAU");
+    color: transparent;
+    background-clip: text;
+    background-position: center;
 }
 
 .status {
@@ -42,8 +30,7 @@
 }
 
 .filter_handler_container {
-    margin-top: 50px;
-    display: grid;
+    display: none;
     place-items: center;
 
 }
@@ -54,18 +41,44 @@
     align-items: center;
     border: 2px solid rgb(44, 43, 43);
     padding: 2px 10px;
+    cursor: pointer;
 }
 
+.filter_handler_container .show_filter_holder{
+    height: 100vh;
+    width: 100vw;
+    background: rgb(231, 231, 231);
+    position: fixed;
+    top: 0px;
+    z-index: 9;
+    display: grid;
+    place-items: center;
+}
+.show_filter_holder .fa-x{
+    color: black;
+    cursor: pointer;
+    font-size: 25px;
+}
 @media screen and (max-width:1000px) {
     .app_container {
         flex-direction: column-reverse;
         align-items: center;
+        margin-top: 30px;
     }
-
-    .filter_handler {}
+    .filter_handler_container {
+        margin-top: 50px;
+        display: grid;
+    }
+    .app_container .filter_holder{
+        display: none;
+    }
+    
 }
 @media screen and (max-width:700px) {
     .job_holder{
         margin: 0;
+    }
+    .main_heading{
+        font-size: 25px;
     }
 }

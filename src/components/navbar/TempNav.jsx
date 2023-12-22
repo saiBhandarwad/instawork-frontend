@@ -23,12 +23,11 @@ export default function TempNav({ login, signup, home }) {
             <nav className='nav_section'>
                 <div className='nav_links'>
                     <div className="left"><span className='insta'>insta</span><span className='work'>work</span>.</div>
-                    <div className="right desktopMenu">
-                        <span className='nav_link_btn' onClick={() => navigate("/works")}>Find Works</span>
-                        {home && <span className='nav_link_btn' onClick={() => navigate("/")}>Home</span>}
-                        {signup && <span className='nav_link_btn' onClick={handleLogin}>Login</span>}
-                        {login && <span className='nav_link_btn' onClick={handleSignup}>Signup</span>}
-
+                    <div className="right">
+                        <span className='nav_link' onClick={() => navigate("/")}>Home</span>
+                        <span className='nav_link' onClick={() => navigate("/works")}>Works</span>
+                        <span className='nav_link' onClick={handleLogin}>Login</span>
+                        <span className='nav_link' onClick={handleSignup}>Signup</span>
                     </div>
                     <div className="mobileMenu">
                         {!showMenu && <i className="fa-solid fa-bars" onClick={handleBar}></i>}
@@ -45,6 +44,7 @@ export default function TempNav({ login, signup, home }) {
                     <div className=''>s333bhandarwad@gmail.com
                         <hr className='line' />
                     </div>
+                    <span className='' onClick={()=>navigate("/")}>Home</span>
                     <span className='' onClick={handleLogin}>Login</span>
                     <span className='' onClick={handleSignup}>Signup</span>
                     <span className='' onClick={() => navigate("/works")}>Find Works</span>

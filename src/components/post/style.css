@@ -1,17 +1,18 @@
 .post-container{
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     background: linear-gradient(45deg, rgb(101, 75, 205) 10%, purple 90% );
     display: grid;
     place-items: center;
 }
 .post-form{
-    height: 560px;
+    min-height: 560px;
     width: 700px;
     background: rgb(255, 255, 255);
     box-shadow: 1px 1px 5px #c8c8c8,-1px -1px 5px #c8c8c8;
 }
 .post-inner-container{
+    height: auto;
     width: 550px;
     margin: auto;
 }
@@ -90,4 +91,25 @@ textarea{
         border: 2px solid black;
         color: black;
     }
+}
+@media screen and (max-width:768px) {
+.post-detail{
+    display: block;
+}
+.post-form{
+    width: calc(100% - 20px);
+    margin: 50px 10px;
+}
+.post-inner-container{
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+.postBtnContainer{
+    padding-bottom: 10px;
+}
+.input-container{
+    width: 100%;
+}
+    
 }

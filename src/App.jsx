@@ -5,9 +5,12 @@ import Job from './components/job/Job'
 import './App.css'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { fetchUserAsync } from './redux/authSlice'
 export const MyContext = createContext()
-import boyImg from './assets/boy.png'
 export default function App() {
+  const [showFilter, setShowFilter] = useState()
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const token = localStorage.getItem("auth-token")
   const [contextValue, setContextValue] = useState()
@@ -25,7 +28,9 @@ export default function App() {
     axios.post("http://localhost:8080/user/validateUser", {
       data: { token }
     }).then((res) => {
-      if (!res.data.success) {
+      if (res.data.success) {
+        // nothing to do
+      } else {
         navigate("/login")
       }
     }).catch((error) => {
@@ -35,6 +40,7 @@ export default function App() {
   }
   useEffect(() => {
     try {
+      // dispatch(fetchUserAsync(token))
       validateUser()
       fetchWorks()
     } catch (error) {
@@ -49,26 +55,32 @@ export default function App() {
     })
     setContextValue({ works: res.data.works, handleFilter })
   }
+  const toggleFilter = () => {
+    setShowFilter(!showFilter)
+  }
   return (
     <>
       <MyContext.Provider value={contextValue}>
         <Navbar />
-        {/* <div className="upper_container">
-          <div className="intro">
-            <div className="left">
-              <p className='intro_heading'>Ab paise ki tension ko karo bye!</p>
-              <p className='intro_text'>Find work with us!</p>
-            </div>
-            <div className="right"><img src={boyImg} height="100px" alt="" /></div>
-          </div>
-        </div> */}
+        <div className="main_heading_container">
+          <div className="main_heading">Ab Paise Ki Tension Ko Karo Bye Bye!
+            <br />
+            Find Work With Us!</div>
+        </div>
         <div className="filter_handler_container">
-          <div className="filter_handler">
+          <div className="filter_handler" onClick={toggleFilter}>
             <i className="fa-solid fa-filter"></i>
             <span>Filter</span>
           </div>
+          {showFilter && <div className="show_filter_holder">
+          <i className="fa-solid fa-x" onClick={toggleFilter}></i>
+            <Filter />
+          </div>}
+          
+
           <div className='status'>{contextValue?.works?.length} {contextValue?.works?.length <= 1 ? "Job" : "Jobs"} Found..</div>
         </div>
+
         <div className="app_container">
           <Filter />
           <div className="job_holder">

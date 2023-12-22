@@ -8,44 +8,30 @@ import empowerImg from "../../assets/empower.jpg"
 import Footer from '../footer/footer';
 import TempNav from '../navbar/TempNav';
 import { useNavigate } from 'react-router-dom';
-export default function Home() {
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserAsync, verifyUser } from '../../redux/authSlice';
+import Navbar from '../navbar/Navbar';
+
+export default function Home() { 
+  const token = localStorage.getItem("auth-token")
+  const isLoggedIn = useSelector(verifyUser) 
+  const dispatch = useDispatch()
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
   useEffect(() => {
-    // showNumberAnimation()
+    dispatch(fetchUserAsync(token))
+    console.log({isLoggedIn});
     AOS.init({
       offset: 100,
       duration: 1000,
       once: true
     });
   }, [])
-  // const showNumberAnimation = () =>{
-  //   const counterObserver = new IntersectionObserver((entries,observe)=>{
-  //     const [entry] = entries
-  //     console.log(entry);
-  //     if(!entry.isIntersecting)return
-
-  //     const numbers = document.querySelectorAll('.num')
-  //     function updateNumberCounter(){
-  //       numbers.forEach(curElem=>{
-  //         const targetNum = parseInt(curElem.dataset.number)
-  //         const initialNum = parseInt(curElem.innerText.includes("+")?curElem.innerText.slice(0,-1):curElem.innerText)
-  //         const incrementNum = Math.trunc(targetNum/800)
-  //         if(initialNum < targetNum){
-  //           curElem.innerText = initialNum + incrementNum + "+"
-  //           setTimeout(updateNumberCounter,1)
-  //         }
-  //       })
-  //     }
-  //     updateNumberCounter()
-
-  //   },{root:null,threshold:0})
-  //   counterObserver.observe(document.querySelector(".why_choose_section"))
-  // }
 
   return (
     <>
-    <TempNav login={true} signup={true}/>
+      {isLoggedIn && <Navbar/>}
+      {!isLoggedIn && <TempNav login={true} signup={true} />}
       <div className="home_main_container">
         <div className='img_container'>{/* for image */}</div>
 
@@ -53,7 +39,7 @@ export default function Home() {
           <div className='main_text_container' data-aos="zoom-in">
             <div className="heading ">Find all types <br /> of works with instawork.</div>
             <div className="description">Empowering Tomorrow's Youngsters: Make Money With Part Time Work with Our Comprehensive Platform!</div>
-            <div className="get_started" onClick={()=>navigate("/login")}>Get Started</div>
+            <div className="get_started" onClick={() => navigate("/login")}>Get Started</div>
           </div>
         </div>
       </div>
@@ -112,7 +98,7 @@ export default function Home() {
               why instawork?
             </div>
             <div className="wc_first_description">
-            Choose us for an get instant work at your location. Our platform stands out as a beacon of excellence, offering a curated works. Benefit daily and weekly payment assurance, flexible working timings, and a supportive community. With chat option you can chat with employer and can know more about work, embark on a transformative journey, gaining not just money but can earn experience in different domains.
+              Choose us for an get instant work at your location. Our platform stands out as a beacon of excellence, offering a curated works. Benefit daily and weekly payment assurance, flexible working timings, and a supportive community. With chat option you can chat with employer and can know more about work, embark on a transformative journey, gaining not just money but can earn experience in different domains.
             </div>
           </div>
           <div className="wc_second" data-aos="zoom-in-up">
@@ -121,10 +107,10 @@ export default function Home() {
             <p className='wc_text'>We are trusted platforms, where you can get work with us, instawork provide filter and sorting functionality for finding jobs according to your preferences. </p>
           </div>
           <div className="wc_third" data-aos="zoom-in-up"><i className="fa-solid fa-circle-check"></i>
-          <h3>Verified Accounts</h3>
+            <h3>Verified Accounts</h3>
             <p className='wc_text'>We already verified email and phone number of all who post job and applicant, you dont need to worry about verification.</p></div>
           <div className="wc_fourth" data-aos="zoom-in-up"><i className="fa-solid fa-file-invoice-dollar"></i>
-          <h3>Payment Assurance</h3>
+            <h3>Payment Assurance</h3>
             <p className='wc_text'> we are here to give trusted jobs with payment assurance, you just need to browse jobs according to your preferences</p></div>
         </div>
       </div>

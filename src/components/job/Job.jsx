@@ -17,7 +17,6 @@ export default function Job() {
     const [showSuccess,setShowSuccess] = useState(state?.showSuccess)
     
     const obj = useContext(MyContext)
-    console.log(obj);
     let msg = "error is occured"
 
     useEffect(()=>{
@@ -44,7 +43,7 @@ export default function Job() {
                 })
                 return (
                     <div className="job_container" key={work._id}>
-                        <div className="job_title"> {type} </div>
+                        <div className="job_title"> {type}</div>
                         <div className="company_info">{firstName} {lastName}</div>
                         <div className="job_location"><img src={locationIcon} alt="" />{city} {address}</div>
                         <div className="job_related_info">

@@ -35,9 +35,6 @@ export default function Navbar({ home }) {
           <div className="left"><span className='insta'>insta</span><span className='work'>work</span>.</div>
 
           <div className="right">
-            <img className='saved_icon' src={savedIcon} alt="" />
-            <img className='chat_icon' src={chatIcon} alt="" />
-
             {!isAuthenticated ? <><button className='register_btn' onClick={() => navigate('/login')}>Login</button>
               <button className='register_btn' onClick={() => navigate('/signup')}>Register</button></> :
               home ? <span className='nav_link_btn' onClick={() => navigate("/")}>Home</span> : <span className='nav_link_btn' onClick={handlePost}>Post Job</span>
@@ -49,9 +46,12 @@ export default function Navbar({ home }) {
                 <div className='user_email'>s333bhandarwad@gmail.com</div>
                 <hr className='line' />
                 <div className="lower">
-                  <div className='profile_home' onClick={() => navigate("/")}>home</div>
-                  <div className='profile_post_job' onClick={() => navigate("/post")}>post job</div>
-                  <div className='profile_logout' onClick={handleLogout}>logout</div>
+                  <div onClick={() => navigate("/")}>home</div>
+                  <div onClick={() => navigate("/works")}>Find Jobs</div>
+                  <div onClick={() => navigate("/post")}>post job</div>
+                  <div onClick={() => navigate("/")}>chats</div>
+                  <div onClick={() => navigate("/")}>my jobs</div>
+                  <div onClick={handleLogout}>logout</div>
                 </div>
               </div>
             </div>}
@@ -76,6 +76,7 @@ export default function Navbar({ home }) {
           </div>
           <div className='container_for_cursor'>
             <div className='profile_home' onClick={() => navigate("/")}>Home</div>
+            <div className='profile_home' onClick={() => navigate("/works")}>Find Jobs</div>
             <div>My Jobs</div>
             <div>Chats</div>
             <div className='profile_post_job' onClick={() => navigate("/post")}>Post Job</div>
