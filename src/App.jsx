@@ -5,12 +5,9 @@ import Job from './components/job/Job'
 import './App.css'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
-import { fetchUserAsync } from './redux/authSlice'
 export const MyContext = createContext()
 export default function App() {
   const [showFilter, setShowFilter] = useState()
-  const dispatch = useDispatch()
   const navigate = useNavigate()
   const token = localStorage.getItem("auth-token")
   const [contextValue, setContextValue] = useState()

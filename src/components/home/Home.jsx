@@ -5,7 +5,7 @@ import 'aos/dist/aos.css';
 import CountUp from 'react-countup'
 import ScrollTrigger from 'react-scroll-trigger'
 import empowerImg from "../../assets/empower.jpg"
-import Footer from '../footer/footer';
+import Footer from '../footer/Footer';
 import TempNav from '../navbar/TempNav';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
