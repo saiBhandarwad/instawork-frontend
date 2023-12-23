@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Error from '../error/Error'
 import Success from '../success/Success'
-import TempNav from '../navbar/TempNav'
+import Navbar from '../navbar/Navbar'
 
 
 export default function Login() {
@@ -119,6 +119,7 @@ export default function Login() {
                     email, password
                 }
             })
+            console.log({res});
             if (res.data.success) {
                 navigate("/works", { state: { showSuccess: true } })
                 if (res.data.token) {
@@ -163,8 +164,7 @@ export default function Login() {
         }
     }
     return (
-        <>
-           <TempNav login={true} home={true}/>
+        <><Navbar/>
             <div className="login_holder">
                 <div className="login_container">
                     <div className="login_left">

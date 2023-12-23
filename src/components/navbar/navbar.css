@@ -1,5 +1,7 @@
+.display_none{
+    display: none;
+}
 nav{
-    /* background: #f2f0f0; */
     background: #fff;
     box-shadow: 0px 1px 10px rgb(175, 168, 168);
     position: sticky;
@@ -70,6 +72,58 @@ nav{
     font-weight: 500;
     color: #272626;
 }
+.menu_container{
+    position: fixed;
+    right: 0;
+    top: 0px;
+    background: #00000075;
+    height: calc(100vh);
+    width: 100vw;
+    z-index: 9;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #06253f;
+}
+.menu_inner_container{
+    position: relative;
+    box-sizing: border-box;
+    height: calc(100vh - 70px);
+    width: calc(100vw- 20px);
+    top: 50px;
+    margin: 0 10px;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 18px;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.menu_inner_container span{
+    cursor: pointer;
+}
+.menu_inner_container span:hover, .container_for_cursor div:hover{
+    color: rgba(255, 0, 0, 0.408);
+    font-weight: bold;
+}
+.fa-x{
+    position: absolute;
+    right: 16px;
+    top: 25px;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+}
+.nav_link_btn{
+    cursor: pointer;
+    background: #1a385d;
+    padding: 6px 25px;
+    border-radius: 50px;
+    min-width: 60px;
+    white-space: nowrap;
+    text-align: center;
+    color: white;
+}
 .profile_big_container{
     height: 70px;
     width: 70px;
@@ -132,7 +186,16 @@ nav{
 .container_for_cursor div{
     cursor: pointer;
 }
-@media screen and (max-width:750px) {
+
+@media screen and (max-width:768px) {
+    .nav_container{
+        width: calc(100% - 20px);
+        margin: 0;
+        padding: 0 10px;
+    }
+    .nav_container .left{
+        padding: 0;
+    }
     .nav_container .right{
         display: none;
     }

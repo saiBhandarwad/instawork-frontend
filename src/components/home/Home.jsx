@@ -6,7 +6,6 @@ import CountUp from 'react-countup'
 import ScrollTrigger from 'react-scroll-trigger'
 import empowerImg from "../../assets/empower.jpg"
 import Footer from '../footer/Footer';
-import TempNav from '../navbar/TempNav';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserAsync, verifyUser } from '../../redux/authSlice';
@@ -30,8 +29,7 @@ export default function Home() {
 
   return (
     <>
-      {isLoggedIn && <Navbar/>}
-      {!isLoggedIn && <TempNav login={true} signup={true} />}
+      <Navbar/>
       <div className="home_main_container">
         <div className='img_container'>{/* for image */}</div>
 
@@ -56,7 +54,7 @@ export default function Home() {
             </p>
             <p className='empower_text'>✅We strive to increase your chances to get work according to your preferences.</p>
           </div>
-          <div className="empower_right" data-aos="fade-left">
+          <div className="empower_right" data-aos="fade-up">
             <img src={empowerImg} alt="" />
           </div>
         </div>

@@ -11,11 +11,10 @@
     text-align: center;
     font-size: 30px;
     font-weight: 900;
-    /* background: linear-gradient(45deg, red,blue); */
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3eaNIWevHUGkUjoW8h5ELKyTiBGzR7N2EDA&usqp=CAU");
+    background: linear-gradient(45deg, rgb(255, 0, 0),rgb(0, 47, 255));
     color: transparent;
     background-clip: text;
-    background-position: center;
+    /* background-position: center; */
 }
 
 .status {
@@ -80,5 +79,17 @@
     }
     .main_heading{
         font-size: 25px;
+    }
+}
+@media screen and (max-width:500px) {
+    .main_heading{
+        font-size: 20px;
+        font-weight: 500;
+    }
+}
+@media screen and (max-width:400px) {
+    .main_heading{
+        font-size: 16px;
+        font-weight: 500;
     }
 }

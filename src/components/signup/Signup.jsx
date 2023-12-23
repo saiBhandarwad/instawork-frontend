@@ -7,7 +7,7 @@ import lockImg from '../../assets/padlock.png'
 import phoneIcon from '../../assets/telephone.png'
 import './style.css'
 import { useNavigate } from 'react-router-dom'
-import TempNav from '../navbar/TempNav'
+import Navbar from '../navbar/Navbar'
 export default function Signup() {
     const [resOTP,setResOTP] = useState()
     const [MobileResOTP,setMobileResOTP] = useState()
@@ -43,7 +43,7 @@ export default function Signup() {
     }
     const handleSignup = () => {
         console.log({firstName,lastName, emailVerified, password,confirmPassword,mobileNumberVerified});
-        if(firstName.length>=3 && lastName.length>=3 && emailVerified===true && password===confirmPassword && mobileNumberVerified===true){
+        if(firstName.length>=3 && lastName.length>=3 && emailVerified===true && password===confirmPassword){
             createUser()
         }
      
@@ -242,8 +242,7 @@ export default function Signup() {
         
     }
     return (
-        <>
-        <TempNav signup={true} home={true}/>
+        <><Navbar/>
             <div className="signup_holder">
                 <div className="signup_container">
 
