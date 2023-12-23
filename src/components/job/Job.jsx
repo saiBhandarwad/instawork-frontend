@@ -33,7 +33,7 @@ export default function Job() {
                 const { address, detail, city, duration, endDate, startDate, salary, salaryPeriod, type, user } = work
                 let firstName;
                 let lastName;
-                axios.post("http://localhost:8080/user/getUser", {
+                axios.post("https://instawork-backend.vercel.app/user/getUser", {
                     data: {
                         email: user
                     }

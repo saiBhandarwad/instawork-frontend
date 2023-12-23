@@ -30,7 +30,7 @@ export default function Signup() {
     const navigate = useNavigate()
 
     const createUser = async () => {
-        const response = await axios.post("http://localhost:8080/user/signup", {
+        const response = await axios.post("https://instawork-backend.vercel.app/user/signup", {
             data: {
                 firstName, lastName, email, phone, password
             }
@@ -177,7 +177,7 @@ export default function Signup() {
             return;
         }
         setShowEmailOTP(true)
-        const res = await axios.post("http://localhost:8080/sendMail",{
+        const res = await axios.post("https://instawork-backend.vercel.app/sendMail",{
             data:{
                 email
             }
@@ -194,7 +194,7 @@ export default function Signup() {
     const sendMobileOTP = async () =>{
         if(phone.length==10){
             setShowMobileOTP(true)
-            const res = await axios.post("http://localhost:8080/sendOTP",{
+            const res = await axios.post("https://instawork-backend.vercel.app/sendOTP",{
                 data:{
                     phone
                 }

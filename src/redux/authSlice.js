@@ -7,7 +7,7 @@ const initialState = {
 export const fetchUserAsync = createAsyncThunk(
     'user/fetchuser',
     async (token) => {
-        const response = await axios.post("http://localhost:8080/user/validateUser", {
+        const response = await axios.post("https://instawork-backend.vercel.app/user/validateUser", {
             data: { token }
         });
         // The value we return becomes the `fulfilled` action payload

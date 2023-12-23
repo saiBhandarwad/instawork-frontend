@@ -50,7 +50,8 @@ export default function Login() {
         }
         if (phone.length == 10) {
             setShowOTP(true)
-            const res = await axios.post("http://localhost:8080/sendOTP", {
+            // http://localhost:8081/sendOTP
+            const res = await axios.post("https://instawork-backend.vercel.app/sendOTP", {
                 data: {
                     phone
                 }
@@ -95,7 +96,7 @@ export default function Login() {
             setOtpVerified(true)
             setMobileNumberVerified(true)
             setShowOTP(false)
-            const res = await axios.post("http://localhost:8080/user/loginWithOTP", {
+            const res = await axios.post("https://instawork-backend.vercel.app/user/loginWithOTP", {
                 data: {
                     phone
                 }
@@ -113,7 +114,7 @@ export default function Login() {
     }
     const handleLogin = async () => {
         if (email && password) {
-            const res = await axios.post("http://localhost:8080/user/login", {
+            const res = await axios.post("https://instawork-backend.vercel.app/user/login", {
                 data: {
                     email, password
                 }
@@ -136,7 +137,7 @@ export default function Login() {
     const loginUser = async () => {
         const token = localStorage.getItem("auth-token")
         try {
-            const res = await axios.post("http://localhost:8080/user/login", {
+            const res = await axios.post("https://instawork-backend.vercel.app/user/login", {
                 headers: { "Authorization": token },
                 data: {
                     email, password

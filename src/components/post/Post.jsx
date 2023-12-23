@@ -108,7 +108,7 @@ export default function Post() {
         }
         
         try {
-            const res = await axios.post("http://localhost:8080/work/postJob",{
+            const res = await axios.post("https://instawork-backend.vercel.app/work/postJob",{
             data:{
                 workType,salary,city,duration,startDate,endDate,detail,address,period
             },

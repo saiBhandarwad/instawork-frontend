@@ -23,7 +23,7 @@ export default function () {
   const obj = useContext(MyContext)
   const token = localStorage.getItem("auth-token")
   useEffect(() => {
-    axios.post("http://localhost:8080/work/works", {
+    axios.post("https://instawork-backend.vercel.app/work/works", {
       headers: {
         token
       },

@@ -12,7 +12,7 @@ export default function App() {
   const token = localStorage.getItem("auth-token")
   const [contextValue, setContextValue] = useState()
   const fetchWorks = () => {
-    axios.post("http://localhost:8080/work/works", {
+    axios.post("https://instawork-backend.vercel.app/work/works", {
       headers: {
         token
       }
@@ -22,7 +22,7 @@ export default function App() {
     }).catch((err) => console.log({ err }))
   }
   const validateUser = () => {
-    axios.post("http://localhost:8080/user/validateUser", {
+    axios.post("https://instawork-backend.vercel.app/user/validateUser", {
       data: { token }
     }).then((res) => {
       if (res.data.success) {
@@ -46,7 +46,7 @@ export default function App() {
 
   }, [])
   const handleFilter = async (obj, sortBy, sortType) => {
-    const res = await axios.post("http://localhost:8080/work/getWorksByFilter", {
+    const res = await axios.post("https://instawork-backend.vercel.app/work/getWorksByFilter", {
       data: { filterOBJECT: obj, sortBy, type: sortType },
       headers: { token }
     })
