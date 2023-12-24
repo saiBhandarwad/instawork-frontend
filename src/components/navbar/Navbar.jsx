@@ -14,7 +14,6 @@ export default function Navbar({ home }) {
 
     if (token) {
       const decodedToken = decodeToken(token)
-      console.log({ decodedToken });
       setIsAuthenticated(true)
       axios.post("https://instawork-backend.vercel.app/user/getUser", {
         data: {
@@ -27,7 +26,7 @@ export default function Navbar({ home }) {
   }, [])
   const handleLogout = () => {
     localStorage.removeItem("auth-token")
-    navigate("/login", { state: { showLogout: true } })
+    navigate("/login", { state: { message: "logout successfully!" } })
   }
   const handlePost = () => {
     navigate("/post")
@@ -58,9 +57,9 @@ export default function Navbar({ home }) {
               home ? <span className='nav_link_btn' onClick={() => navigate("/")}>Home</span> : <span className='nav_link_btn' onClick={handlePost}>Post Job</span>
             }
             {isAuthenticated && <div className='profile_big_container'>
-              <span className='profile_btn'>{user.firstName.charAt(0)}</span>
+              <span className='profile_btn'>{user.firstName.charAt(0).toUpperCase()}</span>
               <div className='profile_container'>
-                <div className='user_name'>{user.firstName} {user.lastName}</div>
+                <div className='user_name'>{user.firstName.toUpperCase()} {user.lastName.toUpperCase()}</div>
                 <div className='user_email'>{user.email}</div>
                 <hr className='line' />
                 <div className="lower">
@@ -96,8 +95,8 @@ export default function Navbar({ home }) {
           <span className='' onClick={handleSignup}>Signup</span>
         </div>}
         {isAuthenticated && <div className="menu_inner_container">
-          <div className=''>SAIPRASAD BHANDARWAD</div>
-          <div className=''>s333bhandarwad@gmail.com
+          <div className=''>{user.firstName.toUpperCase()} {user.lastName.toUpperCase()}</div>
+          <div className=''>{user.email}
             <hr className='line' />
           </div>
           <div className='container_for_cursor'>

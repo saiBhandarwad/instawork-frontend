@@ -2,13 +2,16 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import './style.css'
 import filterIcon from '../../assets/filter-filled-tool-symbol.png'
 import sortIcon from '../../assets/sort.png'
-import { MyContext } from '../../App'
-import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchFilteredWorks } from '../../redux/authSlice'
+
 export default function () {
+  const allWorks = useSelector(state => state.user.allWorks)
+  const dispatch = useDispatch()
   const [city, setCity] = useState()
   const [sortType, setSortType] = useState("asc")
   const [workType, setWorkType] = useState()
-  const [allWorks, setAllWorks] = useState()
+  // const [allWorks, setAllWorks] = useState()
   const [salaryRange, setSalaryRange] = useState('2k')
   const [salaryPeriod, setSalaryPeriod] = useState()
   const [sortBy, setSortBy] = useState()
@@ -20,32 +23,32 @@ export default function () {
   const [cityArray, setCityArray] = useState([])
   const workTypeRef = useRef()
   const locationRef = useRef()
-  const obj = useContext(MyContext)
   const token = localStorage.getItem("auth-token")
   useEffect(() => {
-    axios.post("https://instawork-backend.vercel.app/work/works", {
-      headers: {
-        token
-      },
-      data: {
-        sortBy, type: 'asc'
-      }
-    }).then((res) => {
-      console.log({ res })
-      setAllWorks(res.data.works)
-    }).catch((err) => console.log({ err }))
+    if (allWorks?.length === 0) {
+      setCityArray([])
+      setWorkTypeArray([])
+    }
   }, [])
 
   useEffect(() => {
-    setWorkTypeArray(allWorks?.map((item) => item.type)
-      .filter((item, i, arr) => arr.indexOf(item) === i)
-      .filter(item => item.startsWith(workTypeValue)))
+    if (allWorks?.length > 0) {
+      setWorkTypeArray(allWorks?.map((item) => item.type)
+        .filter((item, i, arr) => arr.indexOf(item) === i)
+        .filter(item => item.startsWith(workTypeValue)))
+    } else {
+      setWorkTypeArray([])
+    }
   }, [workTypeValue])
 
   useEffect(() => {
-    setCityArray(allWorks?.map(item => item.city)
-      .filter((item, i, arr) => arr.indexOf(item) === i)
-      .filter(item => item.startsWith(cityValue)))
+    if (allWorks?.length > 0) {
+      setCityArray(allWorks?.map(item => item.city)
+        .filter((item, i, arr) => arr.indexOf(item) === i)
+        .filter(item => item.startsWith(cityValue)))
+    } else {
+      setCityArray([])
+    }
   }, [cityValue])
 
   document.addEventListener("click", () => {
@@ -108,18 +111,18 @@ export default function () {
   }
   const handleApply = () => {
     let salary = salaryRange.slice(0, -1) * 1000
-    console.log({ city, workType, salary, salaryPeriod, sortBy });
     if (city && workType && salary && salaryPeriod && sortBy && sortType) {
-      obj?.handleFilter({ type: workType, city, salary: { $gte: salary }, salaryPeriod }, sortBy,sortType)
+      let obj = { type: workType, city, salary: { $gte: salary }, salaryPeriod }
+      dispatch(fetchFilteredWorks({ obj, sortBy, sortType, token }))
+      console.log({ city, workType, salary, salaryPeriod, sortBy, token });
     }
   }
   const handleReset = () => {
-    obj?.handleFilter()
+    handleFilter()
   }
 
-  const handleActive = (e) => {
+  const handleSortType = (e) => {
     let id = e.target.id
-    console.log({ id });
     if (id == "asc") {
       setSortType("asc")
       document.getElementById("asc").classList.add("active")
@@ -146,21 +149,24 @@ export default function () {
             <label >Work Type</label>
             <br />
             <input type="text" ref={workTypeRef} placeholder='eg. Loading and Unloading' onClick={handleWorkType} onChange={workTypeOnChangeFunction} />
-            {showWorkOptions ? (
-              workTypeValue?.length === 0 ? (
-                <div className='work_option_container'>
-                  {allWorks?.map((item) => item.type)
+
+            {showWorkOptions &&
+              <div className='work_option_container'>
+                {
+                  workTypeValue?.length === 0 && allWorks?.map((item) => item.type)
                     .filter((item, i, arr) => arr.indexOf(item) === i)
-                    .map(item => <div className='work_option' key={item} onClick={(e) => handleWorkOption(e, item)}>{item}</div>)}
-                </div>) :
-                (<div className='work_option_container'>
-                  {workTypeArray?.length === 0 ? (
-                    <div className='location_option'>no match found</div>
-                  ) : (workTypeArray?.map((item, i) => <div className='work_option' key={item} onClick={(e) => handleWorkOption(e, item)}>{item}</div>)
-                  )
-                  }
-                </div>)
-            ) : null
+                    .map(item => <div className='work_option' key={item} onClick={(e) => handleWorkOption(e, item)}>{item}</div>)
+                }
+                {
+                  workTypeValue?.length > 0 && workTypeArray?.length === 0 && <div className='work_option'>no match found</div> 
+                }
+                {workTypeValue?.length > 0 && workTypeArray?.length > 0 && workTypeArray?.map(
+                  (item, i) => <div className='work_option' key={item} onClick={(e) => handleWorkOption(e, item)}>{item}</div>)
+                }
+                {allWorks?.length === 0 &&
+                  <div className='location_option' >no data found</div>
+                }
+              </div>
             }
           </div>
           {/******************** location **************************************/}
@@ -181,7 +187,9 @@ export default function () {
                   cityArray?.map((item) => <div className='location_option' key={item} onClick={(e) => handleCityOption(e, item)}>{item}</div>)
                 )
               )}
-
+              {allWorks?.length === 0 &&
+                <div className='location_option' >no data found</div>
+              }
             </div>}
           </div>
 
@@ -204,9 +212,9 @@ export default function () {
             </div>
           </div>
           <div className="sortby_container">
-            <p><img src={sortIcon} alt="" />Sort By <button className='active' id='asc' onClick={handleActive}>asc</button> <button id='desc' onClick={handleActive}>desc</button></p>
+            <p><img src={sortIcon} alt="" />Sort By <button className='active' id='asc' onClick={handleSortType}>asc</button> <button id='desc' onClick={handleSortType}>desc</button></p>
             <div className="latest" >
-              <input type="radio" name='sort' onClick={() => setSortBy("latest")} />
+              <input type="radio" name='sort' onClick={() => setSortBy("postedDate")} />
               <span>Latest</span>
             </div>
             <div className="duration" >

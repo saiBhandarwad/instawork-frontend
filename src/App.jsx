@@ -3,24 +3,44 @@ import Navbar from './components/navbar/Navbar'
 import Filter from './components/filter/Filter'
 import Job from './components/job/Job'
 import './App.css'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { setShowNotify, setNotify, fetchAllWorks } from './redux/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import Notifty from './components/notify/Notify'
+
 export const MyContext = createContext()
 export default function App() {
+  // const [allWorks,setAllWorks]=useState()
+  const allWorks = useSelector(state=>state.user.allWorks)
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const showNotify = useSelector(state=>state.user.showNotify)
+  const notify= useSelector(state=>state.user.notify)
   const [showFilter, setShowFilter] = useState()
   const navigate = useNavigate()
   const token = localStorage.getItem("auth-token")
-  const [contextValue, setContextValue] = useState()
-  const fetchWorks = () => {
-    axios.post("https://instawork-backend.vercel.app/work/works", {
-      headers: {
-        token
+
+
+  useEffect(() => {
+    try {
+      if(location.state.message){
+        dispatch(setNotify({status:true,message:location.state.message}))
+        handleNotify()
       }
-    }).then((res) => {
-      console.log({ res })
-      setContextValue({ works: res.data.works, handleFilter })
-    }).catch((err) => console.log({ err }))
-  }
+      validateUser()
+      dispatch(fetchAllWorks(token))
+    } catch (error) {
+      console.warn("failed to getting works from database ", error.message);
+    }
+  }, [])
+
+  const handleNotify = () => {
+    dispatch(setShowNotify(true))
+    setTimeout(() => {
+        dispatch(setShowNotify(false))
+    }, 5000);
+}
   const validateUser = () => {
     axios.post("https://instawork-backend.vercel.app/user/validateUser", {
       data: { token }
@@ -33,31 +53,14 @@ export default function App() {
     }).catch((error) => {
       console.log({ error })
     })
-
   }
-  useEffect(() => {
-    try {
-      // dispatch(fetchUserAsync(token))
-      validateUser()
-      fetchWorks()
-    } catch (error) {
-      console.warn("failed to getting works from database ", error.message);
-    }
-
-  }, [])
-  const handleFilter = async (obj, sortBy, sortType) => {
-    const res = await axios.post("https://instawork-backend.vercel.app/work/getWorksByFilter", {
-      data: { filterOBJECT: obj, sortBy, type: sortType },
-      headers: { token }
-    })
-    setContextValue({ works: res.data.works, handleFilter })
-  }
+ 
   const toggleFilter = () => {
     setShowFilter(!showFilter)
   }
   return (
     <>
-      <MyContext.Provider value={contextValue}>
+      
         <Navbar />
         <div className="main_heading_container">
           <div className="main_heading">Ab Paise Ki Tension Ko Karo Bye Bye!
@@ -71,20 +74,18 @@ export default function App() {
           </div>
           {showFilter && <div className="show_filter_holder">
           <i className="fa-solid fa-x" onClick={toggleFilter}></i>
-            <Filter />
+            <Filter allWorks={allWorks}/>
           </div>}
-          
-
-          <div className='status'>{contextValue?.works?.length} {contextValue?.works?.length <= 1 ? "Job" : "Jobs"} Found..</div>
         </div>
-
+        <div className='status'>{allWorks?.length} {allWorks?.length <= 1 ? "Job" : "Jobs"} Found..</div>
         <div className="app_container">
           <Filter />
           <div className="job_holder">
             <Job />
           </div>
         </div>
-      </MyContext.Provider>
+        {showNotify && <Notifty msg={notify.message} status={notify.status}/>}
+ 
     </>
   )
 }

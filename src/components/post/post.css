@@ -78,6 +78,11 @@ textarea{
     border: 2px solid black;
     animation: blink 1s ease-in-out infinite;
 }
+.postBtn:hover{
+    background: rgba(0, 68, 255, 0.481);
+    color: white;
+    font-weight: 500;
+}
 @keyframes blink {
     0%{
         border: 2px solid red;

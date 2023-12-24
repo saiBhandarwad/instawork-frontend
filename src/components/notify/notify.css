@@ -1,4 +1,4 @@
-.success_container {
+.notify_container {
     position: fixed;
     right: 10px;
     bottom: 10px;
@@ -9,7 +9,7 @@
     animation: hide 2s ease-in-out 1;
 }
 
-.success_msg {
+.notify_msg {
     display: inline;
     font-size: 18px;
     margin: 0 10px;

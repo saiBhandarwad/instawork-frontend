@@ -5,7 +5,7 @@ import mailImg from '../../assets/mail.png'
 import userImg from '../../assets/user.png'
 import lockImg from '../../assets/padlock.png'
 import phoneIcon from '../../assets/telephone.png'
-import './style.css'
+import './signup.css'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../navbar/Navbar'
 export default function Signup() {

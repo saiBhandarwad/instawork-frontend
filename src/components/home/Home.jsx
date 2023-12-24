@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './style.css'
+import './home.css'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CountUp from 'react-countup'
@@ -45,14 +45,14 @@ export default function Home() {
         <div className="empower_section">
           <div className="empower_left" data-aos="fade-up">
             <p className='empower_heading'>If you have the courage and the commitment to learn, we are here to empower you.</p>
-            <p className='empower_text'>✅We are dedicated to provide all available works at your place.</p>
+            <p className='empower_text'>✅We are dedicated to providing all available work at your place.</p>
             <p className='empower_text'>✅Whether you are a student just out of school,</p>
-            <p className='empower_text'>✅ a college/university student/who does preparation for government exams,</p>
-            <p className='empower_text'>✅a person who need money to run your and family expenses,
+            <p className='empower_text'>✅ a college or university student who does preparation for government exams.</p>
+            <p className='empower_text'>✅a person who needs money to run their own expenses and their family's expenses.
             </p>
-            <p className='empower_text'>✅a person who is new in big cities and does not getting work,
+            <p className='empower_text'>✅A person who is new to big cities and is not getting work.
             </p>
-            <p className='empower_text'>✅We strive to increase your chances to get work according to your preferences.</p>
+            <p className='empower_text'>✅We strive to increase your chances of getting work according to your preferences.</p>
           </div>
           <div className="empower_right" data-aos="fade-up">
             <img src={empowerImg} alt="" />
@@ -96,20 +96,20 @@ export default function Home() {
               why instawork?
             </div>
             <div className="wc_first_description">
-              Choose us for an get instant work at your location. Our platform stands out as a beacon of excellence, offering a curated works. Benefit daily and weekly payment assurance, flexible working timings, and a supportive community. With chat option you can chat with employer and can know more about work, embark on a transformative journey, gaining not just money but can earn experience in different domains.
+            Choose us to get instant work at your location. Our platform stands out as a beacon of excellence, offering curated work. Benefit daily and weekly payment assurance, flexible working timings, and a supportive community. With the chat option, you can chat with employers and know more about work, embark on a transformative journey, and gain not just money but can earn experience in different domains.
             </div>
           </div>
           <div className="wc_second" data-aos="zoom-in-up">
             <i className="fa-solid fa-cubes"></i>
             <h3>Filter and Sorting</h3>
-            <p className='wc_text'>We are trusted platforms, where you can get work with us, instawork provide filter and sorting functionality for finding jobs according to your preferences. </p>
+            <p className='wc_text'>We are a trusted platform, where you can get work with us, instawork provides filter and sorting functionality for finding jobs according to your preferences. </p>
           </div>
           <div className="wc_third" data-aos="zoom-in-up"><i className="fa-solid fa-circle-check"></i>
             <h3>Verified Accounts</h3>
-            <p className='wc_text'>We already verified email and phone number of all who post job and applicant, you dont need to worry about verification.</p></div>
+            <p className='wc_text'>We already verified the email and phone numbers of all who post jobs and applicants, you don't need to worry about verification.</p></div>
           <div className="wc_fourth" data-aos="zoom-in-up"><i className="fa-solid fa-file-invoice-dollar"></i>
             <h3>Payment Assurance</h3>
-            <p className='wc_text'> we are here to give trusted jobs with payment assurance, you just need to browse jobs according to your preferences</p></div>
+            <p className='wc_text'> We are here to give trusted jobs with payment assurance, you have to browse jobs according to your preferences</p></div>
         </div>
       </div>
       <Footer />

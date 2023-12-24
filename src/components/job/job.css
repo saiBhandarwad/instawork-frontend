@@ -30,7 +30,8 @@
 .job_title {
     font-size: 25px;
     font-weight: 600;
-    color: #1f1d1d;
+    color: #414141;
+    font-family: sans-serif;
 }
 
 .company_info {

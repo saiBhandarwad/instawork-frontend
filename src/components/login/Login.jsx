@@ -3,16 +3,20 @@ import welcomeImg from '../../assets/welcome.avif'
 import mailImg from '../../assets/mail.png'
 import lockImg from '../../assets/padlock.png'
 import phoneIcon from '../../assets/telephone.png'
-import './style.css'
+import './login.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import Error from '../error/Error'
-import Success from '../success/Success'
+import Notify from '../notify/Notify'
 import Navbar from '../navbar/Navbar'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { setNotify, setShowNotify } from '../../redux/authSlice'
+import {createBrowserHistory} from 'history'
 
 export default function Login() {
-    const [showError, setShowError] = useState()
+    const history = createBrowserHistory()
+    const dispatch = useDispatch()
+    const showNotify = useSelector(state => state.user.showNotify)
+    const notify = useSelector(state => state.user.notify)
     const [resOTP, setResOTP] = useState()
     const [phone, setPhone] = useState()
     const [email, setEmail] = useState()
@@ -21,17 +25,20 @@ export default function Login() {
     const [OTPSent, setOTPSent] = useState()
     const [mobileNumberVerified, setMobileNumberVerified] = useState()
     const [otpVerified, setOtpVerified] = useState()
-    const { state } = useLocation()
-    const [showLogout, setShowLogout] = useState(state?.showLogout)
     const navigate = useNavigate()
+    const location = useLocation()
     useEffect(() => {
+        console.log(history);
         loginUser()
-        setTimeout(() => {
-            setShowLogout(false)
-        }, 5000);
     }, [])
+    const handleNotify = () => {
+        dispatch(setShowNotify(true))
+        setTimeout(() => {
+            dispatch(setShowNotify(false))
+        }, 5000);
+    }
     const handleMobileNum = (e) => {
-        if (mobileNumberVerified === true) {
+        if (mobileNumberVerified === true) { 
             setMobileNumberVerified(false)
         }
         const elem = document.getElementById("mobile_number")
@@ -50,7 +57,6 @@ export default function Login() {
         }
         if (phone.length == 10) {
             setShowOTP(true)
-            // http://localhost:8081/sendOTP
             const res = await axios.post("https://instawork-backend.vercel.app/sendOTP", {
                 data: {
                     phone
@@ -101,9 +107,11 @@ export default function Login() {
                     phone
                 }
             })
+            handleNotify()
+            dispatch(setNotify({ status: res.data.success, message: res.data.message }))
             if (res.data.token) {
                 localStorage.setItem("auth-token", res.data.token)
-                navigate("/works")
+                navigate("/works", {state:{message:"login successful!"}})
             }
             console.log({ res });
         } else {
@@ -119,17 +127,15 @@ export default function Login() {
                     email, password
                 }
             })
-            console.log({res});
+            dispatch(setNotify({ status: res.data.success, message: res.data.message }))
+            handleNotify()
+            console.log({ res });
             if (res.data.success) {
                 navigate("/works", { state: { showSuccess: true } })
                 if (res.data.token) {
                     localStorage.setItem("auth-token", res.data.token)
                 }
             } else {
-                setShowError(true)
-                setTimeout(() => {
-                    setShowError(false)
-                }, 5000)
                 console.warn("login failed!");
             }
 
@@ -137,6 +143,17 @@ export default function Login() {
     }
     const loginUser = async () => {
         const token = localStorage.getItem("auth-token")
+        if (!token) {
+            if (location?.state?.message) {
+                dispatch(setNotify({ status: false, message: location.state.message }))
+                handleNotify()
+                history.replace({state:{}})
+                return
+            }
+            dispatch(setNotify({ status: false, message: "login failed!" }))
+            handleNotify()
+            return
+        }
         try {
             const res = await axios.post("https://instawork-backend.vercel.app/user/login", {
                 headers: { "Authorization": token },
@@ -144,6 +161,8 @@ export default function Login() {
                     email, password
                 }
             })
+            dispatch(setNotify({ status: res.data.success, message: res.data.message }))
+            handleNotify()
             if (res.data.success) {
                 navigate("/works", { state: { showSuccess: true } })
                 if (res.data.token) {
@@ -164,7 +183,7 @@ export default function Login() {
         }
     }
     return (
-        <><Navbar/>
+        <><Navbar />
             <div className="login_holder">
                 <div className="login_container">
                     <div className="login_left">
@@ -208,9 +227,7 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-
-            {showError && <Error msg="login failed!" />}
-            {showLogout && <Success msg="logout successfully!" />}
+            {showNotify && <Notify msg={notify.message} status={notify.status} />}
         </>
     )
 }

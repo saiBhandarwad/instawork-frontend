@@ -85,6 +85,9 @@
     font-size: 25px;
     font-weight: 500;
     line-height: 30px;
+    font-family: 'Raleway', sans-serif;
+    text-transform: capitalize;
+    font-weight: 600;
 }
 
 .empower_left {
