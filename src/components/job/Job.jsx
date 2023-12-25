@@ -21,7 +21,7 @@ export default function Job() {
 
     return (
         <>
-            {allWorks.length === 0 && loading === false && <>
+            {allWorks?.length === 0 && loading === false && <>
                 <div className="job_container d-flex justify-content-center align-items-center"> NO DATA AVAILABLE</div>
                 <div className="job_container d-flex justify-content-center align-items-center"> NO DATA AVAILABLE</div>
             </>}

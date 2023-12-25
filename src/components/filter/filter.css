@@ -82,7 +82,7 @@
 .salary_range_bg {
     position: relative;
     top: 10px;
-    left: 14px;
+    left: -40px;
     display: inline-block;
     height: 35px;
     width: 35px;
@@ -97,12 +97,14 @@
 
 .salary_range {
     position: relative;
-    left: 20px;
+    left: -24px;
     color: white;
     border: white;
     z-index: 2;
 }
-
+.display_none{
+    visibility: hidden;
+}
 .salary_period_container p {
     margin-bottom: 10px;
 }
@@ -134,7 +136,6 @@
     cursor: pointer;
     background: cadetblue;
 }
-
 .range {
     margin-top: 10px;
     display: flex;
@@ -168,7 +169,17 @@
     margin: 0;
     cursor: pointer;
 }
-
+.sortby_container button{
+    background: white;
+    color: black;
+    text-decoration: line-through;
+}
+.sortby_container .active{
+    background: rgba(0, 0, 255, 0.529);
+    border: 2px solid rgb(125, 170, 255);
+    border-radius: 2px;
+    text-decoration: none;
+}
 .sortby_container .latest,
 .duration,
 .salary_sorter {

@@ -74,7 +74,7 @@ export default function App() {
           </div>
           {showFilter && <div className="show_filter_holder">
           <i className="fa-solid fa-x" onClick={toggleFilter}></i>
-            <Filter allWorks={allWorks}/>
+            <Filter />
           </div>}
         </div>
         <div className='status'>{allWorks?.length} {allWorks?.length <= 1 ? "Job" : "Jobs"} Found..</div>

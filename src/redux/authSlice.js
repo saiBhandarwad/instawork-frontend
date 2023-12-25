@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 const initialState = {
     allWorks:[],
+    allCities:[],
+    allWorkTypes:[],
     loading:true,
     isUserLoggedIn: '',
     showNotify: false,
@@ -10,6 +12,15 @@ const initialState = {
         message: ""
     }
 };
+export const getAllCityAndWorks = createAsyncThunk(
+    'user/getAllCityAndWorks',
+    async (token) => {
+        const response = await axios.post("https://instawork-backend.vercel.app/work/getAllCityAndWorks", {
+            headers: { token }
+        });
+        return response.data
+    }
+)
 export const fetchAllWorks = createAsyncThunk(
     'user/fetchAllWorks',
     async (token) => {
@@ -70,6 +81,18 @@ export const authSlice = createSlice({
                 }
             })
             .addCase(fetchAllWorks.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(getAllCityAndWorks.fulfilled, (state, action) => {
+                if(action.payload.success){
+                    state.allWorkTypes = action.payload.workTypeArray;
+                    state.allCities = action.payload.cityArray;
+                    state.loading = false
+                }else{
+                    state.allWorks = [];
+                }
+            })
+            .addCase(getAllCityAndWorks.pending, (state) => {
                 state.loading = true
             })
             .addCase(fetchFilteredWorks.fulfilled, (state, action) => {

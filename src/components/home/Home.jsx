@@ -19,7 +19,6 @@ export default function Home() {
   const navigate = useNavigate()
   useEffect(() => {
     dispatch(fetchUserAsync(token))
-    console.log({isLoggedIn});
     AOS.init({
       offset: 100,
       duration: 1000,
