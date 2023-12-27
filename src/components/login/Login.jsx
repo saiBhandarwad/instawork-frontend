@@ -10,9 +10,12 @@ import Notify from '../notify/Notify'
 import Navbar from '../navbar/Navbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotify, setShowNotify } from '../../redux/authSlice'
-import {createBrowserHistory} from 'history'
+import { createBrowserHistory } from 'history'
+import { isExpired } from 'react-jwt'
 
 export default function Login() {
+    const token = localStorage.getItem("auth-token")
+    let isMyTokenExpired;
     const history = createBrowserHistory()
     const dispatch = useDispatch()
     const showNotify = useSelector(state => state.user.showNotify)
@@ -28,6 +31,15 @@ export default function Login() {
     const navigate = useNavigate()
     const location = useLocation()
     useEffect(() => {
+        if (token) {
+            isMyTokenExpired = isExpired(token)
+        }
+        console.log({ isMyTokenExpired });
+        if(isMyTokenExpired){
+            localStorage.removeItem("auth-token")
+            handleNotify()
+            dispatch(setNotify({ status: false, message: "token expired"}))
+        }
         console.log(history);
         loginUser()
     }, [])
@@ -38,7 +50,7 @@ export default function Login() {
         }, 5000);
     }
     const handleMobileNum = (e) => {
-        if (mobileNumberVerified === true) { 
+        if (mobileNumberVerified === true) {
             setMobileNumberVerified(false)
         }
         const elem = document.getElementById("mobile_number")
@@ -111,7 +123,7 @@ export default function Login() {
             dispatch(setNotify({ status: res.data.success, message: res.data.message }))
             if (res.data.token) {
                 localStorage.setItem("auth-token", res.data.token)
-                navigate("/works", {state:{message:"login successful!"}})
+                navigate("/works", { state: { message: "login successful!" } })
             }
             console.log({ res });
         } else {
@@ -142,18 +154,18 @@ export default function Login() {
         }
     }
     const loginUser = async () => {
-        const token = localStorage.getItem("auth-token")
         if (!token) {
             if (location?.state?.message) {
                 dispatch(setNotify({ status: false, message: location.state.message }))
                 handleNotify()
-                history.replace({state:{}})
+                history.replace({ state: {} })
                 return
             }
             dispatch(setNotify({ status: false, message: "login failed!" }))
             handleNotify()
             return
         }
+        if(isMyTokenExpired)return
         try {
             const res = await axios.post("https://instawork-backend.vercel.app/user/login", {
                 headers: { "Authorization": token },

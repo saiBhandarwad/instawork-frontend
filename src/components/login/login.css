@@ -37,7 +37,7 @@
     border-radius: 50px;
     outline: none;
     height: 30px;
-    width: 230px;
+    width: 100%;
     margin-top: 25px;
     padding-left: 50px;
     font-size: 14px;
@@ -148,7 +148,7 @@ input::-webkit-inner-spin-button {
 }
 
 @media screen and (max-width:720px) {
-    .login_container img{
+    .login_container .login_left img{
         display: none;
     }
 }

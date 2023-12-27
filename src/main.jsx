@@ -11,6 +11,7 @@ import Post from './components/post/Post.jsx'
 import Home from './components/home/Home.jsx'
 import { store } from './redux/store.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import SavedJobs from './components/saved jobs/SavedJobs.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/works",
     element: <App />
+  },
+  {
+    path: "/myjobs",
+    element: <SavedJobs />
   },
   {
     path: "/login",

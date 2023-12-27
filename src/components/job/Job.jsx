@@ -1,27 +1,39 @@
 import React, { useEffect, useState } from 'react'
+import './job.css'
 import locationIcon from '../../assets/location.png'
 import salaryIcon from '../../assets/salary.png'
 import dateIcon from '../../assets/calendar.png'
 import durationIcon from '../../assets/hourglass.png'
 import HistoryIcon from '../../assets/history.png'
-import './job.css'
-import axios from 'axios'
 import Loader from '../Loader'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchAllWorks } from '../../redux/authSlice'
+import { fetchAllWorks, getMyJobs, getSavedJobs } from '../../redux/authSlice'
+import axios from 'axios'
 
-export default function Job() {
-    const allWorks = useSelector(state => state.user.allWorks)
+export default function Job({ jobArray }) {
+    // const allWorks = useSelector(state => state.user.allWorks)
     const loading = useSelector(state => state.user.loading)
     const dispatch = useDispatch()
     const token = localStorage.getItem("auth-token")
     useEffect(() => {
         dispatch(fetchAllWorks(token))
+        dispatch(getSavedJobs(token))
+        dispatch(getMyJobs(token))
+        console.log({ jobArray });
+        
     }, [])
+    const handleSaveJob = async (e,work) => {
+        e.target.innerHTML = "saved"
+        const response = await axios.post("https://instawork-backend.vercel.app/saveJob", {
+            data: { work },
+            headers: { token }
+        });
+        dispatch(fetchAllWorks(token))
+    }
 
     return (
         <>
-            {allWorks?.length === 0 && loading === false && <>
+            {jobArray?.length === 0 && loading === false && <>
                 <div className="job_container d-flex justify-content-center align-items-center"> NO DATA AVAILABLE</div>
                 <div className="job_container d-flex justify-content-center align-items-center"> NO DATA AVAILABLE</div>
             </>}
@@ -29,10 +41,10 @@ export default function Job() {
                 <div className="job_container d-flex justify-content-center align-items-center"> <Loader /></div>
                 <div className="job_container d-flex justify-content-center align-items-center"> <Loader /></div>
             </>}
-            {allWorks && allWorks?.map((work) => {
-                const { address, detail, city, duration, endDate, startDate, salary, salaryPeriod, type, user, postedDate } = work
+            {jobArray && jobArray?.map((work) => {
+                const { address, detail, city, duration, endDate, startDate, salary, salaryPeriod, type, user, postedDate, status } = work
                 const hours = (Date.now() - postedDate) / (1000 * 60 * 60) % 24
-                const minutes = Math.floor(( (Date.now() - postedDate) / (1000 * 60)) % 60)
+                const minutes = Math.floor(((Date.now() - postedDate) / (1000 * 60)) % 60)
                 let firstName;
                 let lastName;
                 axios.post("https://instawork-backend.vercel.app/user/getUser", {
@@ -72,7 +84,7 @@ export default function Job() {
                                 <span>
                                     {hours < 1 && Math.ceil(minutes) + " minutes ago"}
                                     {hours > 1 && hours < 24 && Math.ceil(hours) + " hours ago"}
-                                    {hours >= 24 && Math.floor(hours/24) + " days ago"}
+                                    {hours >= 24 && Math.floor(hours / 24) + " days ago"}
                                 </span>
                             </div>
                             <div className="job_posted_info">
@@ -81,7 +93,9 @@ export default function Job() {
                             </div>
                         </div>
                         <div className="job_apply_btn">
-                            <button>SAVE JOB</button>
+                            {status === "saved" && <button>{status}</button> }
+                            {status === "save job" && <button onClick={(e) => handleSaveJob(e,work)}>{status}</button>}
+                            {!status && <button onClick={(e) => handleSaveJob(e,work)}>SAVE JOB</button>}
                         </div>
                     </div>
                 )

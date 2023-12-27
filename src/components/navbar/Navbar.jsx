@@ -11,7 +11,6 @@ export default function Navbar({ home }) {
   const token = localStorage.getItem("auth-token")
 
   useEffect(() => {
-
     if (token) {
       const decodedToken = decodeToken(token)
       setIsAuthenticated(true)
@@ -67,7 +66,7 @@ export default function Navbar({ home }) {
                   <div onClick={() => navigate("/works")}>Find Jobs</div>
                   <div onClick={() => navigate("/post")}>post job</div>
                   <div onClick={() => navigate("/")}>chats</div>
-                  <div onClick={() => navigate("/")}>my jobs</div>
+                  <div onClick={() => navigate("/myjobs")}>my jobs</div>
                   <div onClick={handleLogout}>logout</div>
                 </div>
               </div>

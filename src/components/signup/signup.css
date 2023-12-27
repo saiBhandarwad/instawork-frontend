@@ -36,7 +36,7 @@
     border-radius: 50px;
     outline: none;
     height: 30px;
-    width: 240px;
+    width: 100%;
     margin-top: 25px;
     padding-left: 50px;
     font-size: 14px;
@@ -128,7 +128,7 @@
 }
 
 #mobile_number{
-    width: 150px !important;
+    width: 180px !important;
     padding-left: 40px !important;
     border: none !important;
     border-bottom: 2px solid !important;
