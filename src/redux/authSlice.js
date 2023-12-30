@@ -60,15 +60,17 @@ export const fetchAllWorks = createAsyncThunk(
         });
         
         let works = resWorks.data.works
+        console.log({works});
         let savedWorks = resSavedWorks.data.savedJobs
         const allWorks = works.map(work=>{
             savedWorks.map((savedWork)=>{
-                if(work._id===savedWork._id){
+                if(work._id===savedWork.id){
                     work.status="saved"
                 }
             })
             return work
         })
+        console.log({allWorks});
         const payload = {success : resWorks.data.success, allWorks}
         return payload
     }

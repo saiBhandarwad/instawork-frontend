@@ -168,13 +168,10 @@ export default function () {
     let obj = { salaryPeriod: period, salary: { $gte: salary } }
     setSalaryPeriod(period)
     if (workType) {
-      obj = { type: workType, salary: { $gte: salary }, salaryPeriod: period }
+      obj.workType = workType
     }
     if (city) {
-      obj = { city, salary: { $gte: salary }, salaryPeriod: period }
-    }
-    if (workType && city) {
-      obj = { type: workType, city, salary: { $gte: salary }, salaryPeriod: period }
+      obj.city = city
     }
     if (period === "any") {
       delete obj["salaryPeriod"]

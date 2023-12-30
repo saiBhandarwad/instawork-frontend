@@ -14,7 +14,7 @@
 .job_posted_info {
     display: inline-flex;
     padding: 2px 5px;
-    margin-top: 20px;
+    margin-top: 10px;
     gap: 5px;
     align-items: center;
     font-family: 'Roboto', sans-serif;
@@ -35,7 +35,6 @@
 }
 
 .company_info {
-    margin-top: 10px;
     font-size: 15px;
     font-weight: 400;
     color: #524f4f;
@@ -43,7 +42,7 @@
 }
 
 .job_location {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     font-size: 15px;
@@ -55,7 +54,7 @@
 }
 
 .job_related_info {
-    margin-top: 30px;
+    margin-top: 20px;
     display: grid;
     grid-template-columns: auto auto auto auto;
     gap: 50px;
@@ -80,7 +79,6 @@
 }
 
 .extra_info {
-    margin-top: 15px;
     display: flex;
     gap: 15px;
 }

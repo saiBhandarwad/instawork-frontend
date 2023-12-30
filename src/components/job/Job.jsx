@@ -20,45 +20,41 @@ export default function Job({ jobArray }) {
         dispatch(getSavedJobs(token))
         dispatch(getMyJobs(token))
         console.log({ jobArray });
-        
+
     }, [])
-    const handleSaveJob = async (e,work) => {
+    const handleSaveJob = async (e, work) => {
         e.target.innerHTML = "saved"
-        const response = await axios.post("https://instawork-backend.vercel.app/saveJob", {
+        const response = await axios.post("https://instawork-backend.vercel.app/work/saveJob", {
             data: { work },
             headers: { token }
         });
+        console.log({ response });
         dispatch(fetchAllWorks(token))
     }
 
     return (
         <>
-            {jobArray?.length === 0 && loading === false && <>
-                <div className="job_container d-flex justify-content-center align-items-center"> NO DATA AVAILABLE</div>
-                <div className="job_container d-flex justify-content-center align-items-center"> NO DATA AVAILABLE</div>
-            </>}
-            {loading && <>
+            {
+                jobArray?.length === 0 && loading === false && <>
+                    <div className="job_container d-flex justify-content-center align-items-center"> NO DATA AVAILABLE</div>
+                    <div className="job_container d-flex justify-content-center align-items-center"> NO DATA AVAILABLE</div>
+                </>
+            }
+            {jobArray?.length === 0 || loading && <>
                 <div className="job_container d-flex justify-content-center align-items-center"> <Loader /></div>
                 <div className="job_container d-flex justify-content-center align-items-center"> <Loader /></div>
+
             </>}
+
             {jobArray && jobArray?.map((work) => {
-                const { address, detail, city, duration, endDate, startDate, salary, salaryPeriod, type, user, postedDate, status } = work
-                const hours = (Date.now() - postedDate) / (1000 * 60 * 60) % 24
+                const { address, city, duration, endDate, startDate, salary, salaryPeriod, type, user, postedDate, status } = work
+                const hours = Math.ceil((Date.now() - postedDate) / (1000 * 60 * 60))
                 const minutes = Math.floor(((Date.now() - postedDate) / (1000 * 60)) % 60)
-                let firstName;
-                let lastName;
-                axios.post("https://instawork-backend.vercel.app/user/getUser", {
-                    data: {
-                        email: user
-                    }
-                }).then(res => {
-                    firstName = res.data.user.firstName
-                    lastName = res.data.user.lastName
-                })
+
                 return (
                     <div className="job_container" key={work._id}>
-                        <div className="job_title"> {type.split(" ").map(item => item.charAt(0).toUpperCase() + item.slice(1) + " ")}</div>
-                        <div className="company_info">{firstName} {lastName}</div>
+                        <div className="job_title"> {type?.split(" ").map(item => item.charAt(0).toUpperCase() + item.slice(1) + " ")}</div>
+                        <div className="company_info">{user}</div>
                         <div className="job_location"><img src={locationIcon} alt="" />{city} {address}</div>
                         <div className="job_related_info">
                             <div className="job_start_date">
@@ -84,7 +80,7 @@ export default function Job({ jobArray }) {
                                 <span>
                                     {hours < 1 && Math.ceil(minutes) + " minutes ago"}
                                     {hours > 1 && hours < 24 && Math.ceil(hours) + " hours ago"}
-                                    {hours >= 24 && Math.floor(hours / 24) + " days ago"}
+                                    {hours >= 24 && Math.round(hours / 24) + " days ago"}
                                 </span>
                             </div>
                             <div className="job_posted_info">
@@ -93,9 +89,9 @@ export default function Job({ jobArray }) {
                             </div>
                         </div>
                         <div className="job_apply_btn">
-                            {status === "saved" && <button>{status}</button> }
-                            {status === "save job" && <button onClick={(e) => handleSaveJob(e,work)}>{status}</button>}
-                            {!status && <button onClick={(e) => handleSaveJob(e,work)}>SAVE JOB</button>}
+                            {status === "saved" && <button>{status}</button>}
+                            {status === "save job" && <button onClick={(e) => handleSaveJob(e, work)}>{status}</button>}
+                            {!status && <button onClick={(e) => handleSaveJob(e, work)}>SAVE JOB</button>}
                         </div>
                     </div>
                 )
